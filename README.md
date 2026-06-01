@@ -9,6 +9,14 @@ A privacy-first, local-first life tracker. Visualize your entire life as a
 
 *Inspired by the "life in months" idea: a single life, drawn as 900 squares.*
 
+<br />
+
+<img src="docs/screenshots/grid.png" alt="The 900-month grid" width="800" />
+
+<br />
+
+<img src="docs/screenshots/panel.png" alt="Recording a moment" width="800" />
+
 </div>
 
 ---

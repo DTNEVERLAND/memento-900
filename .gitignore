@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+src-tauri/target/
+
+# Tauri generated
+src-tauri/gen/schemas/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local build helpers (machine-specific)
+build-exe.bat
+
+# Generated icon source (regenerated from gen-icon.mjs)
+src-tauri/app-icon.png
+
+# Stray TypeScript compile output (we build with noEmit / Vite)
+src/**/*.js
+*.tsbuildinfo

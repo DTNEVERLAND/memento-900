@@ -1,0 +1,26 @@
+[package]
+name = "memento-900"
+version = "0.1.0"
+description = "Memento 900 — 900 months, one grid."
+authors = ["Darren"]
+edition = "2021"
+
+[lib]
+name = "memento_900_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-sql = { version = "2", features = ["sqlite"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[profile.release]
+opt-level = "s"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true

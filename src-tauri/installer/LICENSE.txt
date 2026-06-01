@@ -1,0 +1,14 @@
+Memento 900
+"900 months, one grid."
+
+A privacy-first, local-first life tracker.
+
+—— Your data never leaves this device ——
+All entries are stored in a local database file on your computer.
+There is no account, no server, no cloud sync, and no tracking.
+
+This software is provided "as is", without warranty of any kind.
+By installing, you accept that the authors are not liable for any
+loss of data. You are encouraged to keep your own backups.
+
+Remember you have but 900 months. Spend them well.

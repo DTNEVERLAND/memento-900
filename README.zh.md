@@ -47,6 +47,11 @@
 - 🌐 **双语** —— 中文 / English,随时切换。
 - 🪶 **极轻量** —— 约 1.7 MB 安装包,约 27 MB 内存。基于 Tauri 2,而非 Electron。
 
+## 在线试用
+
+▶️ **[在线 Demo](https://dtneverland.github.io/memento-900/)** —— 浏览器直接打开,
+无需安装。(浏览器版数据存在你的浏览器里;桌面版用本地 SQLite 文件。)
+
 ## 下载
 
 从 **[Releases 页面](../../releases/latest)** 获取最新安装包 →

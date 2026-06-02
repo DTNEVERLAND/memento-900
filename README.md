@@ -49,6 +49,12 @@ go live. No streaks-as-anxiety, no engagement traps, no nagging.
 - 🌐 **Bilingual** — English / 简体中文, switchable anytime.
 - 🪶 **Tiny** — ~1.7 MB installer, ~27 MB RAM. Built with Tauri 2, not Electron.
 
+## Try it now
+
+▶️ **[Live demo](https://dtneverland.github.io/memento-900/)** — runs in your
+browser, no install. (Browser data stays in your browser; the desktop app uses
+a local SQLite file.)
+
 ## Download
 
 Grab the latest installer from the

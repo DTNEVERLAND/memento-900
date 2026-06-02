@@ -95,6 +95,13 @@ npm run tauri build
 The installer is emitted to
 `src-tauri/target/release/bundle/nsis/`.
 
+### Cut a release (Windows)
+
+Double-click **`release.bat`** (or run it in a terminal). It asks for the new
+version and a one-line changelog, then bumps the version everywhere, runs the
+tests, commits & pushes, builds the installer, and publishes a GitHub Release —
+all in one go.
+
 ## License
 
 [MIT](LICENSE) — do what you like, keep the notice.

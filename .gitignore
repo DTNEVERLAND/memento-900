@@ -18,9 +18,6 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Local build helpers (machine-specific)
-build-exe.bat
-
 # Generated icon source (regenerated from gen-icon.mjs)
 src-tauri/app-icon.png
 

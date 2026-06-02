@@ -34,6 +34,9 @@ export interface Dict {
   tagSpent: string;
   tagNow: string;
   tagFuture: string;
+  timeline: string;
+  timelineEmpty: string;
+  quoteLabel: string;
 }
 
 export const I18N: Record<Lang, Dict> = {
@@ -64,6 +67,9 @@ export const I18N: Record<Lang, Dict> = {
     tagSpent: "已度过",
     tagNow: "← 你在这里",
     tagFuture: "尚未到来",
+    timeline: "回看",
+    timelineEmpty: "还没有任何记录。点一个格子,写下你的第一个时刻。",
+    quoteLabel: "今日一念",
   },
   en: {
     htmlLang: "en",
@@ -92,6 +98,9 @@ export const I18N: Record<Lang, Dict> = {
     tagSpent: "Lived",
     tagNow: "← you are here",
     tagFuture: "not yet",
+    timeline: "Look back",
+    timelineEmpty: "Nothing recorded yet. Tap a square and write your first moment.",
+    quoteLabel: "Today's thought",
   },
 };
 

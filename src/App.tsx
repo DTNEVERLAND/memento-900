@@ -2,9 +2,11 @@ import { useEffect, useMemo, useState } from "react";
 import { LifeGrid } from "@/components/LifeGrid";
 import { MomentEditorPanel } from "@/components/MomentEditorPanel";
 import { LanguageToggle } from "@/components/LanguageToggle";
+import { Timeline } from "@/components/Timeline";
 import { useEntries } from "@/lib/storage";
 import { backend } from "@/lib/backend";
 import { I18N, detectInitialLang, type Lang } from "@/lib/i18n";
+import { quoteOfTheDay } from "@/lib/quotes";
 import { getLifeGridState } from "@/utils/time";
 
 const DEFAULT_DOB = "1995-06-15";
@@ -19,9 +21,11 @@ export default function App() {
   const [dob, setDob] = useState<string>(DEFAULT_DOB);
   const [dobLoaded, setDobLoaded] = useState(false);
   const [selected, setSelected] = useState<number | null>(null);
+  const [timelineOpen, setTimelineOpen] = useState(false);
 
-  const { getEntry, setEntry, hasRecord, recordedCount } = useEntries();
+  const { entries, getEntry, setEntry, hasRecord, recordedCount } = useEntries();
   const t = I18N[lang];
+  const quote = useMemo(() => quoteOfTheDay(lang), [lang]);
 
   useEffect(() => {
     document.documentElement.lang = t.htmlLang;
@@ -86,9 +90,17 @@ export default function App() {
             <h1 className="mt-2.5 text-[clamp(22px,5vw,30px)] font-semibold tracking-tight">
               {t.subtitle}
             </h1>
-            <p className="mt-3 text-[clamp(12px,2.4vw,13.5px)] italic text-muted">
-              {t.epigraph}
-            </p>
+            <figure className="mx-auto mt-4 max-w-[460px]">
+              <div className="mb-1.5 text-[10px] uppercase tracking-[0.22em] text-accent/80">
+                {t.quoteLabel}
+              </div>
+              <blockquote className="text-[clamp(13px,2.6vw,15px)] italic leading-relaxed text-fg/90">
+                “{quote.text}”
+              </blockquote>
+              <figcaption className="mt-1.5 text-[11px] text-muted">
+                — {quote.author}
+              </figcaption>
+            </figure>
           </header>
 
           <div className="mb-[clamp(18px,4vw,28px)] flex flex-wrap items-end justify-center gap-3.5">
@@ -131,6 +143,18 @@ export default function App() {
           </div>
 
           <p className="mt-4 text-center text-[11.5px] text-muted opacity-70">{t.note}</p>
+
+          {recordedCount > 0 && (
+            <div className="mt-6 flex justify-center">
+              <button
+                type="button"
+                onClick={() => setTimelineOpen(true)}
+                className="rounded-full border border-line px-5 py-2 text-sm text-fg transition-colors hover:border-accent hover:text-accent"
+              >
+                {t.timeline} →
+              </button>
+            </div>
+          )}
         </div>
       </main>
 
@@ -143,6 +167,18 @@ export default function App() {
         ageLabel={monthMeta.age}
         onChange={(entry) => selected !== null && setEntry(selected, entry)}
         onClose={() => setSelected(null)}
+      />
+
+      <Timeline
+        open={timelineOpen}
+        entries={entries}
+        birth={birth}
+        t={t}
+        onClose={() => setTimelineOpen(false)}
+        onJump={(month) => {
+          setTimelineOpen(false);
+          setSelected(month);
+        }}
       />
     </div>
   );

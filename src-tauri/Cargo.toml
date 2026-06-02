@@ -1,6 +1,6 @@
 [package]
 name = "memento-900"
-version = "0.1.0"
+version = "0.2.0"
 description = "Memento 900 — 900 months, one grid."
 authors = ["Darren"]
 edition = "2021"

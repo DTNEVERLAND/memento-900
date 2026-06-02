@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8" />
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg:#08090a; --fg:#e9e9e7; --muted:#6b6f72;
+    --spent:#2c2f33; --spent-edge:#3a3e43; --now:#f4f4f2; --accent:#c9b27d; --faint:#16181a;
+  }
+  /* 小红书竖版 3:4 → 1080 x 1440 */
+  html, body { width: 1080px; height: 1440px; background: var(--bg); }
+  body {
+    font-family: "PingFang SC","Microsoft YaHei",ui-sans-serif,system-ui,sans-serif;
+    color: var(--fg); position: relative; overflow: hidden;
+    display: flex; flex-direction: column; align-items: center;
+  }
+
+  /* 顶部文案区 */
+  .top { padding: 110px 80px 0; text-align: center; z-index: 2; }
+  .kicker {
+    font-size: 26px; letter-spacing: 0.5em; color: var(--muted);
+    text-transform: uppercase; margin-bottom: 40px;
+  }
+  .title {
+    font-size: 104px; font-weight: 800; line-height: 1.12; letter-spacing: -0.01em;
+  }
+  .title .gold { color: var(--accent); }
+  .sub {
+    margin-top: 36px; font-size: 33px; color: var(--muted); font-weight: 400; line-height: 1.5;
+  }
+
+  /* 网格 */
+  .grid-wrap { margin-top: 70px; width: 760px; }
+  .grid {
+    display: grid; grid-template-columns: repeat(30, 1fr); gap: 5px; width: 100%; aspect-ratio: 1/1;
+  }
+  .cell { aspect-ratio: 1/1; border-radius: 2px; background: var(--faint); box-shadow: inset 0 0 0 1px #101214; }
+  .cell.spent { background: var(--spent); box-shadow: inset 0 0 0 1px var(--spent-edge); }
+  .cell.now {
+    background: var(--now);
+    box-shadow: 0 0 0 1px var(--now), 0 0 16px 3px rgba(244,244,242,.6);
+  }
+
+  /* 底部署名 */
+  .foot {
+    position: absolute; bottom: 64px; left: 0; right: 0; text-align: center;
+  }
+  .foot .name { font-size: 30px; letter-spacing: 0.42em; color: var(--muted); text-transform: uppercase; }
+  .foot .tag { margin-top: 14px; font-size: 26px; color: var(--accent); }
+
+  /* 顶部暖光 */
+  .glow {
+    position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+    width: 900px; height: 600px; border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(201,178,125,.10), transparent);
+    z-index: 0;
+  }
+</style>
+</head>
+<body>
+  <div class="glow"></div>
+  <div class="top">
+    <div class="kicker">Memento&nbsp;900</div>
+    <div class="title">人生只有<br /><span class="gold">900 个月</span></div>
+    <div class="sub">已经过去的，再也回不来了</div>
+  </div>
+
+  <div class="grid-wrap">
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <div class="foot">
+    <div class="name">向 死 而 生</div>
+    <div class="tag">— 一个提醒你珍惜时间的小工具</div>
+  </div>
+
+<script>
+  // 以约 30 岁为例:371 格已度过
+  const TOTAL = 900, LIVED = 371;
+  const g = document.getElementById('grid');
+  for (let i = 0; i < TOTAL; i++) {
+    const c = document.createElement('div');
+    c.className = 'cell' + (i < LIVED ? ' spent' : (i === LIVED ? ' now' : ''));
+    g.appendChild(c);
+  }
+</script>
+</body>
+</html>

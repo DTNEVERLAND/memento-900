@@ -13,6 +13,10 @@ A privacy-first, local-first life tracker. Visualize your entire life as a
 
 <br />
 
+<img src="docs/screenshots/demo.gif" alt="Memento 900 demo" width="800" />
+
+<br />
+
 <img src="docs/screenshots/grid.png" alt="The 900-month grid" width="800" />
 
 <br />

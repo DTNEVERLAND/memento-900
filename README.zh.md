@@ -13,6 +13,10 @@
 
 <br />
 
+<img src="docs/screenshots/demo.gif" alt="Memento 900 演示" width="800" />
+
+<br />
+
 <img src="docs/screenshots/grid.png" alt="900 个月的网格" width="800" />
 
 <br />

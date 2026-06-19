@@ -44,6 +44,12 @@ go live. No streaks-as-anxiety, no engagement traps, no nagging.
   from your date of birth (anniversary-accurate, leap-year safe).
 - 📝 **Record any month** — capture multiple "moments" per month with a note,
   a mood, tags, and photos.
+- 🔍 **Search** — full-text search across every recorded moment (text, tags,
+  mood), with mood filters, match highlighting, and click-to-jump.
+- 🔭 **Life Lens** — an interactive way to *feel* the time you have left:
+  weekends, seasons, birthdays and full moons remaining, plus a live calculator
+  ("if I do this N times a year…" — including "how many times will I see my
+  parents"). Works instantly, no records needed.
 - 🔒 **Private & local-first** — all data lives in a local SQLite file on your
   device. No account, no server, no cloud, no tracking.
 - 🌐 **Bilingual** — English / 简体中文, switchable anytime.

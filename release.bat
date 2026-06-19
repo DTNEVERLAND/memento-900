@@ -49,12 +49,14 @@ if /i not "!CONFIRM!"=="y" (
 REM --- 1. bump version in the three manifests ---
 echo.
 echo  [1/5] Bumping version to !NEWVER! ...
+REM NOTE: write UTF-8 *without* BOM. Windows PowerShell 5.1's "-Encoding utf8"
+REM prepends a BOM, which makes package.json fail JSON.parse at build time.
 powershell -NoProfile -Command ^
-  "$v='!NEWVER!'; (Get-Content package.json -Raw) -replace '\"version\":\s*\"[^\"]+\"', ('\"version\": \"'+$v+'\"') | Set-Content package.json -NoNewline -Encoding utf8"
+  "$v='!NEWVER!'; $u=New-Object System.Text.UTF8Encoding($false); $c=(Get-Content package.json -Raw) -replace '\"version\":\s*\"[^\"]+\"', ('\"version\": \"'+$v+'\"'); [IO.File]::WriteAllText((Resolve-Path package.json), $c, $u)"
 powershell -NoProfile -Command ^
-  "$v='!NEWVER!'; (Get-Content src-tauri\tauri.conf.json -Raw) -replace '\"version\":\s*\"[^\"]+\"', ('\"version\": \"'+$v+'\"') | Set-Content src-tauri\tauri.conf.json -NoNewline -Encoding utf8"
+  "$v='!NEWVER!'; $u=New-Object System.Text.UTF8Encoding($false); $c=(Get-Content src-tauri\tauri.conf.json -Raw) -replace '\"version\":\s*\"[^\"]+\"', ('\"version\": \"'+$v+'\"'); [IO.File]::WriteAllText((Resolve-Path src-tauri\tauri.conf.json), $c, $u)"
 powershell -NoProfile -Command ^
-  "$v='!NEWVER!'; (Get-Content src-tauri\Cargo.toml -Raw) -replace '(?m)^version = \"[^\"]+\"', ('version = \"'+$v+'\"') | Set-Content src-tauri\Cargo.toml -NoNewline -Encoding utf8"
+  "$v='!NEWVER!'; $u=New-Object System.Text.UTF8Encoding($false); $c=(Get-Content src-tauri\Cargo.toml -Raw) -replace '(?m)^version = \"[^\"]+\"', ('version = \"'+$v+'\"'); [IO.File]::WriteAllText((Resolve-Path src-tauri\Cargo.toml), $c, $u)"
 
 REM --- 2. run tests ---
 echo.

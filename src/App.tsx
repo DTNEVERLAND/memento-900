@@ -3,6 +3,8 @@ import { LifeGrid } from "@/components/LifeGrid";
 import { MomentEditorPanel } from "@/components/MomentEditorPanel";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { Timeline } from "@/components/Timeline";
+import { SearchPanel } from "@/components/SearchPanel";
+import { LifeLens } from "@/components/LifeLens";
 import { useEntries } from "@/lib/storage";
 import { backend } from "@/lib/backend";
 import { I18N, detectInitialLang, type Lang } from "@/lib/i18n";
@@ -22,6 +24,8 @@ export default function App() {
   const [dobLoaded, setDobLoaded] = useState(false);
   const [selected, setSelected] = useState<number | null>(null);
   const [timelineOpen, setTimelineOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [lensOpen, setLensOpen] = useState(false);
 
   const { entries, getEntry, setEntry, hasRecord, recordedCount } = useEntries();
   const t = I18N[lang];
@@ -144,17 +148,33 @@ export default function App() {
 
           <p className="mt-4 text-center text-[11.5px] text-muted opacity-70">{t.note}</p>
 
-          {recordedCount > 0 && (
-            <div className="mt-6 flex justify-center">
-              <button
-                type="button"
-                onClick={() => setTimelineOpen(true)}
-                className="rounded-full border border-line px-5 py-2 text-sm text-fg transition-colors hover:border-accent hover:text-accent"
-              >
-                {t.timeline} →
-              </button>
-            </div>
-          )}
+          <div className="mt-6 flex flex-wrap justify-center gap-2.5">
+            <button
+              type="button"
+              onClick={() => setLensOpen(true)}
+              className="rounded-full border border-line px-5 py-2 text-sm text-fg transition-colors hover:border-accent hover:text-accent"
+            >
+              {t.lens}
+            </button>
+            {recordedCount > 0 && (
+              <>
+                <button
+                  type="button"
+                  onClick={() => setSearchOpen(true)}
+                  className="rounded-full border border-line px-5 py-2 text-sm text-fg transition-colors hover:border-accent hover:text-accent"
+                >
+                  {t.search}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setTimelineOpen(true)}
+                  className="rounded-full border border-line px-5 py-2 text-sm text-fg transition-colors hover:border-accent hover:text-accent"
+                >
+                  {t.timeline} →
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </main>
 
@@ -179,6 +199,25 @@ export default function App() {
           setTimelineOpen(false);
           setSelected(month);
         }}
+      />
+
+      <SearchPanel
+        open={searchOpen}
+        entries={entries}
+        birth={birth}
+        t={t}
+        onClose={() => setSearchOpen(false)}
+        onJump={(month) => {
+          setSearchOpen(false);
+          setSelected(month);
+        }}
+      />
+
+      <LifeLens
+        open={lensOpen}
+        monthsRemaining={state.monthsRemaining}
+        t={t}
+        onClose={() => setLensOpen(false)}
       />
     </div>
   );

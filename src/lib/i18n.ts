@@ -37,6 +37,31 @@ export interface Dict {
   timeline: string;
   timelineEmpty: string;
   quoteLabel: string;
+  // Search
+  search: string;
+  searchPlaceholder: string;
+  searchNoMatch: string;
+  searchEmpty: string;
+  searchCount: (n: number) => string;
+  searchAllMoods: string;
+  // Life Lens
+  lens: string;
+  lensIntro: string;
+  factWeekends: string;
+  factSeasons: string;
+  factBirthdays: string;
+  factFullMoons: string;
+  factLeft: string;
+  lensCalcTitle: string;
+  lensActivityPh: string;
+  lensTimesPre: string;
+  lensTimesUnit: string;
+  lensOtherAgePh: string;
+  lensOtherAgeHint: string;
+  lensResultPre: string;
+  lensResultUnit: string;
+  lensYearsHint: (y: number) => string;
+  lensPresets: readonly { readonly label: string; readonly freq: number }[];
 }
 
 export const I18N: Record<Lang, Dict> = {
@@ -70,6 +95,36 @@ export const I18N: Record<Lang, Dict> = {
     timeline: "回看",
     timelineEmpty: "还没有任何记录。点一个格子,写下你的第一个时刻。",
     quoteLabel: "今日一念",
+    search: "搜索",
+    searchPlaceholder: "搜索文字、标签或心情…",
+    searchNoMatch: "没有匹配的记录。",
+    searchEmpty: "还没有记录可供搜索。先去格子里写点什么吧。",
+    searchCount: (n) => `${n} 条结果`,
+    searchAllMoods: "全部",
+    lens: "余生透镜",
+    lensIntro: "把剩下的时间,换成你看得见的东西。",
+    factWeekends: "个周末",
+    factSeasons: "个季节",
+    factBirthdays: "个生日",
+    factFullMoons: "次满月",
+    factLeft: "还剩",
+    lensCalcTitle: "如果我每年——",
+    lensActivityPh: "做一件事(如:旅行、读书、回家)",
+    lensTimesPre: "每年",
+    lensTimesUnit: "次",
+    lensOtherAgePh: "对方年龄(可选)",
+    lensOtherAgeHint: "填了对方年龄,就按 TA 的余生来算(比如「还能见父母几次」)。",
+    lensResultPre: "这辈子,你大约还能这样做",
+    lensResultUnit: "次",
+    lensYearsHint: (y) => `按还剩约 ${y} 年计算`,
+    lensPresets: [
+      { label: "旅行", freq: 2 },
+      { label: "读一本书", freq: 15 },
+      { label: "见老朋友", freq: 4 },
+      { label: "陪父母吃饭", freq: 6 },
+      { label: "看一次海", freq: 1 },
+      { label: "回家过年", freq: 1 },
+    ],
   },
   en: {
     htmlLang: "en",
@@ -101,6 +156,36 @@ export const I18N: Record<Lang, Dict> = {
     timeline: "Look back",
     timelineEmpty: "Nothing recorded yet. Tap a square and write your first moment.",
     quoteLabel: "Today's thought",
+    search: "Search",
+    searchPlaceholder: "Search text, tags or mood…",
+    searchNoMatch: "No matching records.",
+    searchEmpty: "Nothing to search yet. Record something in a square first.",
+    searchCount: (n) => `${n} result${n === 1 ? "" : "s"}`,
+    searchAllMoods: "All",
+    lens: "Life Lens",
+    lensIntro: "Turn the time you have left into things you can picture.",
+    factWeekends: "weekends",
+    factSeasons: "seasons",
+    factBirthdays: "birthdays",
+    factFullMoons: "full moons",
+    factLeft: "left",
+    lensCalcTitle: "If, each year, I…",
+    lensActivityPh: "do something (e.g. travel, read, go home)",
+    lensTimesPre: "times a year",
+    lensTimesUnit: "×",
+    lensOtherAgePh: "their age (optional)",
+    lensOtherAgeHint: "Enter someone's age to count against their life instead — e.g. \"how many times will I see my parents\".",
+    lensResultPre: "In the rest of your life, about",
+    lensResultUnit: "more times",
+    lensYearsHint: (y) => `based on ~${y} years left`,
+    lensPresets: [
+      { label: "Travel", freq: 2 },
+      { label: "Read a book", freq: 15 },
+      { label: "See old friends", freq: 4 },
+      { label: "Dinner with parents", freq: 6 },
+      { label: "See the ocean", freq: 1 },
+      { label: "Go home for holidays", freq: 1 },
+    ],
   },
 };
 

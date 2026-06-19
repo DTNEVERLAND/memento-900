@@ -1,9 +1,9 @@
 {
   "name": "memento-900",
   "private": true,
-  "version": "0.2.0",
+  "version": "0.3.0",
   "type": "module",
-  "description": "Memento 900 (Antigravity) — privacy-first, local-first life tracker. 900 months, one grid.",
+  "description": "Memento 900 (Antigravity) â€” privacy-first, local-first life tracker. 900 months, one grid.",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

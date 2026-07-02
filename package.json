@@ -1,7 +1,7 @@
 {
   "name": "memento-900",
   "private": true,
-  "version": "0.3.0",
+  "version": "0.4.0",
   "type": "module",
   "description": "Memento 900 (Antigravity) â€” privacy-first, local-first life tracker. 900 months, one grid.",
   "scripts": {

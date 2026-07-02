@@ -62,7 +62,7 @@ function MomentCard({ moment, t, onChange, onDelete }: MomentCardProps) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -12 }}
       transition={{ type: "spring", damping: 26, stiffness: 320 }}
-      className="space-y-3 rounded-xl border border-line bg-surface p-3"
+      className="card-glass space-y-3 rounded-card p-3.5 shadow-premium"
     >
       <div className="flex items-center gap-1.5">
         {MOOD_KEYS.map((k) => (
@@ -198,7 +198,7 @@ export function MomentEditorPanel({
               <div className="text-xs uppercase tracking-[0.16em] text-muted">
                 {t.monthOf(monthIndex)}
               </div>
-              <div className="mt-1 text-xl font-semibold">{monthTitle}</div>
+              <div className="mt-1 font-display text-2xl font-bold tracking-tight">{monthTitle}</div>
               <div className="mt-1 text-xs text-muted">{ageLabel}</div>
             </div>
 
@@ -224,7 +224,7 @@ export function MomentEditorPanel({
               <button
                 type="button"
                 onClick={addMoment}
-                className="flex w-full items-center justify-center gap-2 rounded-lg border border-line py-2.5 text-sm text-accent transition-colors hover:border-accent"
+                className="pressable card-glass flex w-full items-center justify-center gap-2 rounded-2xl py-3 text-sm text-accent hover:border-accent/60 hover:shadow-halo"
               >
                 <Plus className="h-4 w-4" />
                 {t.addMoment}

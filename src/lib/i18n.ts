@@ -62,6 +62,12 @@ export interface Dict {
   lensResultUnit: string;
   lensYearsHint: (y: number) => string;
   lensPresets: readonly { readonly label: string; readonly freq: number }[];
+  // Quick actions & mood check-in
+  quickMoodTitle: string;
+  quickMoodHint: string;
+  jumpNow: string;
+  randomMemory: string;
+  lifeRingLabel: string;
 }
 
 export const I18N: Record<Lang, Dict> = {
@@ -125,6 +131,11 @@ export const I18N: Record<Lang, Dict> = {
       { label: "看一次海", freq: 1 },
       { label: "回家过年", freq: 1 },
     ],
+    quickMoodTitle: "此刻的心情",
+    quickMoodHint: "点一下,记进当下这个月",
+    jumpNow: "回到当下",
+    randomMemory: "随机回忆",
+    lifeRingLabel: "已流逝",
   },
   en: {
     htmlLang: "en",
@@ -186,6 +197,11 @@ export const I18N: Record<Lang, Dict> = {
       { label: "See the ocean", freq: 1 },
       { label: "Go home for holidays", freq: 1 },
     ],
+    quickMoodTitle: "How do you feel?",
+    quickMoodHint: "One tap records it into this month",
+    jumpNow: "Back to now",
+    randomMemory: "Random memory",
+    lifeRingLabel: "elapsed",
   },
 };
 

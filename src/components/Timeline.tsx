@@ -45,7 +45,7 @@ export function Timeline({ open, entries, birth, t, onClose, onJump }: TimelineP
           className="fixed inset-0 z-[70] flex flex-col bg-bg/95 backdrop-blur-sm"
         >
           <div className="flex items-center justify-between border-b border-line px-[clamp(16px,5vw,40px)] py-4">
-            <h2 className="text-lg font-semibold tracking-tight">{t.timeline}</h2>
+            <h2 className="font-display text-xl font-bold tracking-tight">{t.timeline}</h2>
             <button
               type="button"
               onClick={onClose}
@@ -76,7 +76,7 @@ export function Timeline({ open, entries, birth, t, onClose, onJump }: TimelineP
                       <button
                         type="button"
                         onClick={() => onJump(m)}
-                        className="w-full rounded-xl border border-line bg-surface p-4 text-left transition-colors hover:border-accent"
+                        className="pressable card-glass w-full rounded-card p-4 text-left shadow-premium hover:border-accent/60"
                       >
                         <div className="flex items-baseline justify-between gap-2">
                           <span className="font-medium">{lab.cal}</span>

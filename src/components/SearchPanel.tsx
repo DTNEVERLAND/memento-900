@@ -98,7 +98,7 @@ export function SearchPanel({ open, entries, birth, t, onClose, onJump }: Search
           className="fixed inset-0 z-[70] flex flex-col bg-bg/95 backdrop-blur-sm"
         >
           <div className="flex items-center justify-between border-b border-line px-[clamp(16px,5vw,40px)] py-4">
-            <h2 className="text-lg font-semibold tracking-tight">{t.search}</h2>
+            <h2 className="font-display text-xl font-bold tracking-tight">{t.search}</h2>
             <button
               type="button"
               onClick={onClose}
@@ -121,7 +121,7 @@ export function SearchPanel({ open, entries, birth, t, onClose, onJump }: Search
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     placeholder={t.searchPlaceholder}
-                    className="w-full rounded-lg border border-line bg-surface px-4 py-2.5 text-sm text-fg outline-none focus:border-accent"
+                    className="card-glass w-full rounded-2xl px-4 py-3 text-sm text-fg outline-none transition-colors focus:border-accent/70"
                   />
 
                   <div className="mt-3 flex flex-wrap items-center gap-2">
@@ -161,7 +161,7 @@ export function SearchPanel({ open, entries, birth, t, onClose, onJump }: Search
                             <button
                               type="button"
                               onClick={() => onJump(h.month)}
-                              className="w-full rounded-xl border border-line bg-surface p-4 text-left transition-colors hover:border-accent"
+                              className="pressable card-glass w-full rounded-card p-4 text-left shadow-premium hover:border-accent/60"
                             >
                               <div className="flex items-baseline justify-between gap-2">
                                 <span className="text-[13px] font-medium">{lab.cal}</span>

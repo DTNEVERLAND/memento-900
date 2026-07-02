@@ -30,6 +30,21 @@ export default {
           "ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "Roboto",
           "PingFang SC", "Microsoft YaHei", "sans-serif",
         ],
+        // Editorial serif for display headings. Playfair covers Latin;
+        // CJK falls back to the system serif so 中文标题也有书卷气。
+        display: [
+          "Playfair Display", "Georgia", "Songti SC", "STSong", "SimSun", "serif",
+        ],
+      },
+      borderRadius: {
+        card: "28px",
+        hero: "36px",
+      },
+      boxShadow: {
+        // Soft, wide "premium" shadow for elevated dark cards
+        premium: "0 10px 30px -5px rgba(0, 0, 0, 0.55)",
+        // Subtle gold halo for the accent elements
+        halo: "0 0 24px rgba(201, 178, 125, 0.18)",
       },
       keyframes: {
         pulse900: {

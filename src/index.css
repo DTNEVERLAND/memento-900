@@ -1,3 +1,9 @@
+/* Bundled locally (no CDN) — keeps the app fully offline. Latin only;
+   CJK display text falls back to the system serif stack. */
+@import "@fontsource/playfair-display/400.css";
+@import "@fontsource/playfair-display/700.css";
+@import "@fontsource/playfair-display/900.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -11,9 +17,30 @@
   body {
     @apply bg-bg text-fg font-sans antialiased;
   }
+  ::selection {
+    background: rgba(201, 178, 125, 0.35);
+  }
   /* Dark-themed native date picker */
   input[type="date"] {
     color-scheme: dark;
+  }
+}
+
+@layer components {
+  /* Glassmorphic dark card — the editorial "elevated" surface */
+  .card-glass {
+    background: rgba(255, 255, 255, 0.035);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  /* Interactive press feel from the reference spec */
+  .pressable {
+    transition: transform 300ms ease, border-color 300ms ease, color 300ms ease,
+      background-color 300ms ease, box-shadow 300ms ease;
+  }
+  .pressable:active {
+    transform: scale(0.98);
   }
 }
 

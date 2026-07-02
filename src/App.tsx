@@ -1,15 +1,19 @@
 import { useEffect, useMemo, useState } from "react";
+import { Search, History, Shuffle, Crosshair, Sparkles } from "lucide-react";
 import { LifeGrid } from "@/components/LifeGrid";
 import { MomentEditorPanel } from "@/components/MomentEditorPanel";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { Timeline } from "@/components/Timeline";
 import { SearchPanel } from "@/components/SearchPanel";
 import { LifeLens } from "@/components/LifeLens";
-import { useEntries } from "@/lib/storage";
+import { LifeRing } from "@/components/LifeRing";
+import { QuickMood } from "@/components/QuickMood";
+import { useEntries, emptyMoment } from "@/lib/storage";
 import { backend } from "@/lib/backend";
 import { I18N, detectInitialLang, type Lang } from "@/lib/i18n";
 import { quoteOfTheDay } from "@/lib/quotes";
 import { getLifeGridState } from "@/utils/time";
+import type { MoodKey } from "@/lib/types";
 
 const DEFAULT_DOB = "1995-06-15";
 const DOB_SETTING_KEY = "dob";
@@ -77,6 +81,49 @@ export default function App() {
     };
   }, [selected, birth, t]);
 
+  // --- Quick interactions -------------------------------------------------
+  const nowIndex = state.isComplete ? null : state.monthsLived;
+
+  // The mood shown as "current" in the check-in row: the latest mood
+  // recorded in the month being lived right now.
+  const currentMood = useMemo<MoodKey | null>(() => {
+    if (nowIndex === null) return null;
+    const moments = entries[nowIndex]?.moments ?? [];
+    for (let i = moments.length - 1; i >= 0; i--) {
+      if (moments[i]!.mood) return moments[i]!.mood;
+    }
+    return null;
+  }, [entries, nowIndex]);
+
+  // One-tap mood check-in. If the newest moment in the current month is a
+  // bare quick-mood record (no text/tags/photos), retag it instead of
+  // stacking a new empty moment on every tap.
+  const pickMood = (mood: MoodKey) => {
+    if (nowIndex === null) return;
+    const entry = getEntry(nowIndex);
+    const last = entry.moments[entry.moments.length - 1];
+    if (last && !last.text.trim() && last.tags.length === 0 && last.photos.length === 0) {
+      setEntry(nowIndex, {
+        moments: entry.moments.map((m) => (m.id === last.id ? { ...m, mood } : m)),
+      });
+    } else {
+      setEntry(nowIndex, { moments: [...entry.moments, { ...emptyMoment(), mood }] });
+    }
+    setSelected(nowIndex);
+  };
+
+  // Jump to a random recorded month — a small serendipity machine.
+  const randomMemory = () => {
+    const recorded = Object.keys(entries)
+      .map(Number)
+      .filter((m) => (entries[m]?.moments.length ?? 0) > 0);
+    if (recorded.length === 0) return;
+    const pool = recorded.length > 1 && selected !== null
+      ? recorded.filter((m) => m !== selected)
+      : recorded;
+    setSelected(pool[Math.floor(Math.random() * pool.length)]!);
+  };
+
   return (
     <div className="flex min-h-screen">
       <LanguageToggle lang={lang} onChange={changeLang} panelOpen={panelOpen} />
@@ -87,18 +134,18 @@ export default function App() {
         }`}
       >
         <div className="w-full max-w-[680px]">
-          <header className="mb-[clamp(18px,4vw,32px)] text-center">
-            <div className="text-[clamp(13px,2.2vw,15px)] font-medium uppercase tracking-[0.42em] text-muted">
+          <header className="mb-[clamp(18px,4vw,30px)] text-center">
+            <div className="text-[clamp(12px,2vw,14px)] font-medium uppercase tracking-[0.42em] text-muted">
               Memento&nbsp;900
             </div>
-            <h1 className="mt-2.5 text-[clamp(22px,5vw,30px)] font-semibold tracking-tight">
+            <h1 className="mt-3 font-display text-[clamp(26px,6vw,40px)] font-black leading-tight tracking-tight">
               {t.subtitle}
             </h1>
-            <figure className="mx-auto mt-4 max-w-[460px]">
+            <figure className="card-glass mx-auto mt-5 max-w-[480px] rounded-card px-6 py-4 shadow-premium">
               <div className="mb-1.5 text-[10px] uppercase tracking-[0.22em] text-accent/80">
                 {t.quoteLabel}
               </div>
-              <blockquote className="text-[clamp(13px,2.6vw,15px)] italic leading-relaxed text-fg/90">
+              <blockquote className="font-display text-[clamp(13px,2.6vw,15.5px)] italic leading-relaxed text-fg/90">
                 “{quote.text}”
               </blockquote>
               <figcaption className="mt-1.5 text-[11px] text-muted">
@@ -107,7 +154,7 @@ export default function App() {
             </figure>
           </header>
 
-          <div className="mb-[clamp(18px,4vw,28px)] flex flex-wrap items-end justify-center gap-3.5">
+          <div className="mb-4 flex flex-wrap items-end justify-center gap-3.5">
             <label className="flex flex-col gap-1.5">
               <span className="text-[11px] uppercase tracking-[0.16em] text-muted">
                 {t.dobLabel}
@@ -117,17 +164,27 @@ export default function App() {
                 value={dob}
                 max={todayISO()}
                 onChange={(e) => changeDob(e.target.value)}
-                className="rounded-lg border border-line bg-surface px-3 py-2 text-sm text-fg outline-none focus:border-accent"
+                className="pressable rounded-xl border border-line bg-surface px-3.5 py-2 text-sm text-fg outline-none focus:border-accent"
               />
             </label>
           </div>
 
-          <div className="mb-[clamp(18px,4vw,26px)] flex flex-wrap justify-center gap-[clamp(18px,6vw,44px)]">
-            <Stat value={state.monthsLived} label={t.lived} />
-            <Stat value={state.monthsRemaining} label={t.left} accent />
-            <Stat value={`${state.percentLived.toFixed(1)}%`} label={t.pct} />
-            <Stat value={recordedCount} label={t.rec} />
+          {/* Hero stat card: life ring + numbers */}
+          <div className="card-glass mb-4 flex items-center justify-center gap-[clamp(16px,5vw,36px)] rounded-hero px-[clamp(16px,4vw,28px)] py-5 shadow-premium">
+            <LifeRing percent={state.percentLived} label={t.lifeRingLabel} />
+            <div className="flex flex-wrap items-center gap-[clamp(14px,4.5vw,32px)]">
+              <Stat value={state.monthsLived} label={t.lived} />
+              <Stat value={state.monthsRemaining} label={t.left} accent />
+              <Stat value={recordedCount} label={t.rec} />
+            </div>
           </div>
+
+          {/* One-tap mood check-in for the current month */}
+          {nowIndex !== null && (
+            <div className="mb-[clamp(18px,4vw,26px)]">
+              <QuickMood t={t} currentMood={currentMood} onPick={pickMood} />
+            </div>
+          )}
 
           <div className={dobLoaded ? "transition-opacity duration-300" : "opacity-0"}>
             <LifeGrid
@@ -149,29 +206,25 @@ export default function App() {
           <p className="mt-4 text-center text-[11.5px] text-muted opacity-70">{t.note}</p>
 
           <div className="mt-6 flex flex-wrap justify-center gap-2.5">
-            <button
-              type="button"
-              onClick={() => setLensOpen(true)}
-              className="rounded-full border border-line px-5 py-2 text-sm text-fg transition-colors hover:border-accent hover:text-accent"
-            >
+            <ActionPill icon={<Sparkles className="h-4 w-4" />} onClick={() => setLensOpen(true)}>
               {t.lens}
-            </button>
+            </ActionPill>
+            {nowIndex !== null && (
+              <ActionPill icon={<Crosshair className="h-4 w-4" />} onClick={() => setSelected(nowIndex)}>
+                {t.jumpNow}
+              </ActionPill>
+            )}
             {recordedCount > 0 && (
               <>
-                <button
-                  type="button"
-                  onClick={() => setSearchOpen(true)}
-                  className="rounded-full border border-line px-5 py-2 text-sm text-fg transition-colors hover:border-accent hover:text-accent"
-                >
+                <ActionPill icon={<Search className="h-4 w-4" />} onClick={() => setSearchOpen(true)}>
                   {t.search}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setTimelineOpen(true)}
-                  className="rounded-full border border-line px-5 py-2 text-sm text-fg transition-colors hover:border-accent hover:text-accent"
-                >
-                  {t.timeline} →
-                </button>
+                </ActionPill>
+                <ActionPill icon={<History className="h-4 w-4" />} onClick={() => setTimelineOpen(true)}>
+                  {t.timeline}
+                </ActionPill>
+                <ActionPill icon={<Shuffle className="h-4 w-4" />} onClick={randomMemory}>
+                  {t.randomMemory}
+                </ActionPill>
               </>
             )}
           </div>
@@ -235,7 +288,7 @@ function Stat({
   return (
     <div className="text-center">
       <div
-        className={`text-[clamp(20px,5vw,26px)] font-semibold tabular-nums tracking-tight ${
+        className={`font-display text-[clamp(22px,5.5vw,30px)] font-bold tabular-nums tracking-tight ${
           accent ? "text-accent" : ""
         }`}
       >
@@ -243,6 +296,27 @@ function Stat({
       </div>
       <div className="mt-1 text-[11px] uppercase tracking-[0.14em] text-muted">{label}</div>
     </div>
+  );
+}
+
+function ActionPill({
+  icon,
+  onClick,
+  children,
+}: {
+  icon: React.ReactNode;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="pressable card-glass inline-flex items-center gap-2 rounded-full py-2.5 pl-4 pr-5 text-sm text-fg shadow-premium hover:border-accent/60 hover:text-accent hover:shadow-halo"
+    >
+      <span className="text-accent/90">{icon}</span>
+      {children}
+    </button>
   );
 }
 

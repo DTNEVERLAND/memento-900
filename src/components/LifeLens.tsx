@@ -58,7 +58,7 @@ export function LifeLens({ open, monthsRemaining, t, onClose }: LifeLensProps) {
           className="fixed inset-0 z-[70] flex flex-col bg-bg/95 backdrop-blur-sm"
         >
           <div className="flex items-center justify-between border-b border-line px-[clamp(16px,5vw,40px)] py-4">
-            <h2 className="text-lg font-semibold tracking-tight">{t.lens}</h2>
+            <h2 className="font-display text-xl font-bold tracking-tight">{t.lens}</h2>
             <button
               type="button"
               onClick={onClose}
@@ -77,12 +77,12 @@ export function LifeLens({ open, monthsRemaining, t, onClose }: LifeLensProps) {
               {facts.map((f) => (
                 <div
                   key={f.label}
-                  className="rounded-xl border border-line bg-surface px-3 py-4 text-center"
+                  className="card-glass rounded-card px-3 py-4 text-center shadow-premium"
                 >
                   <div className="text-[10px] uppercase tracking-[0.14em] text-muted">
                     {t.factLeft}
                   </div>
-                  <div className="mt-1 text-[clamp(22px,6vw,28px)] font-semibold tabular-nums tracking-tight text-accent">
+                  <div className="mt-1 font-display text-[clamp(22px,6vw,28px)] font-bold tabular-nums tracking-tight text-accent">
                     {f.value.toLocaleString()}
                   </div>
                   <div className="mt-0.5 text-[12px] text-fg/80">{f.label}</div>
@@ -91,8 +91,8 @@ export function LifeLens({ open, monthsRemaining, t, onClose }: LifeLensProps) {
             </div>
 
             {/* Interactive frequency calculator */}
-            <div className="mt-8 rounded-2xl border border-line bg-surface p-5">
-              <h3 className="text-sm font-medium">{t.lensCalcTitle}</h3>
+            <div className="card-glass mt-8 rounded-hero p-5 shadow-premium">
+              <h3 className="font-display text-[15px] font-bold">{t.lensCalcTitle}</h3>
 
               <div className="mt-3 flex flex-col gap-3">
                 <input
@@ -157,7 +157,7 @@ export function LifeLens({ open, monthsRemaining, t, onClose }: LifeLensProps) {
                   )}
                 </p>
                 <div className="mt-1.5 flex items-baseline justify-center gap-2">
-                  <span className="text-[clamp(40px,11vw,56px)] font-semibold tabular-nums leading-none tracking-tight text-accent">
+                  <span className="font-display text-[clamp(40px,11vw,56px)] font-black tabular-nums leading-none tracking-tight text-accent">
                     {result.toLocaleString()}
                   </span>
                   <span className="text-base text-muted">{t.lensResultUnit}</span>
